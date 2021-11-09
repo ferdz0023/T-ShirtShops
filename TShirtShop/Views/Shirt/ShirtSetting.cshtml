@@ -1,0 +1,106 @@
+﻿@model IEnumerable<Shirt>
+
+<h1>Shirt List</h1>
+
+<button class="btn btn-primary btn-lg mb-4">New Shirt</button>
+
+<table class="table table-bordered" id="shirt">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Description</th>
+            <th>Image</th>
+            <th>Size</th>
+            <th>Price</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @*@foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@item.Description</td>
+                    <td>
+                        <a href="#" data-id="@item.ImageLocation" class="show_Image" data-bs-target="#myModal" data-bs-toggle="modal">
+                            <img id="photo" class="img-thumbnail" src=@item.ImageThumnNailLocation />
+                        </a>
+                    </td>
+                    <td>@item.Description</td>
+                    <td>@item.Description</td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.Id })
+                        @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { onclick = "return confirm('Are sure wants to delete?');" })
+                    </td>
+                </tr>
+            }*@
+    </tbody>
+</table>
+<partial name="_ImageModal">
+
+    @section Scripts{
+        <script>
+            //$(document).ready(function () {
+
+            //    $('.show_Image').on("click", function () {
+
+            //        let modalId = $(this).data('id');
+
+            //        $("#imageView").attr('src', modalId);
+
+
+            //    })
+            //});
+            $(document).ready(function () {
+                var table = $("#shirt").DataTable({
+                    ajax: {
+                        url: "/api/shirt",
+                        dataSrc: ""
+                    },
+                    columns: [
+                        {
+                            data: "name"
+                        },
+                        {
+                            data: "description"
+                        },
+                        {
+                            data: "img",
+                            render: function (data, type, shirt) {
+                                return " <img id='photo' class='img-thumbnail' src=" + shirt.imageThumnNailLocation + " />"
+                            }
+                        },
+                        {
+                            data: "size.name"
+                        },
+                        {
+                            data: "price"
+                        },
+                        {
+                            data: "ShirtId",
+                            render: function (data) {
+                                return "<a href=/shirt/edit/" + data + " class='btn btn-success'><i class='fas fa-edit'></i></a> <button class='btn btn-danger js-delete' data-shirt-id=" + data + "><i class='fas fa-trash'></i></button>";
+                            }
+                        }
+                    ]
+                });
+                $("#shirt").on("click", ".js-delete", function () {
+                    let button = $(this);
+                    let con = confirm("Are you sure you want to delete this");
+                    if (con) {
+                        $.ajax({
+                            url: "/api/shirt/" + button.attr("data-shirt-id"),
+                            method: "Delete",
+                            success: function () {
+                                table.row(button.parents("tr")).remove().draw();
+                            }
+                        });
+                    }
+
+                });
+
+            })
+        </script>
+
+
+    }

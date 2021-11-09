@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TShirtShop.Core\TShirtShop.Core.csproj" />
+    <ProjectReference Include="..\TShirtShop.Data\TShirtShop.Data.csproj" />
+  </ItemGroup>
+
+</Project>

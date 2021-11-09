@@ -1,0 +1,20 @@
+﻿@model Shirt
+    <div class="col">
+        <div class="card">
+            <img class="card-img-top" src=@Model.ImageThumnNailLocation alt="Shirt" />
+            <div class="card-body">
+                <h3 class="">@Model.Price</h3>
+                <h3>@Model.Name</h3>
+                <p>@Model.Description </p>
+            </div>
+            <div class="addToCart">
+                    
+                        <a class="btn btn-primary"
+                           asp-controller="ShoppingCart"
+                           asp-action="AddToShoppingCart"
+                           asp-route-shirtId="@Model.ShirtId"
+                           >Add to Cart</a>
+            </div>
+        </div>
+
+    </div>
